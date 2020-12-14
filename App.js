@@ -6,53 +6,68 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import {
   SafeAreaView,
   StyleSheet,
   ScrollView,
   View,
-  Text,
   StatusBar,
-  TextInput
+  TextInput, Button
 } from 'react-native';
+import Pote from './components/Pote/Pote';
 
 const App: () => React$Node = () => {
-  
+  const [valor, setValor] = useState(0);
+  const [valorPote1, setValorPote1] = useState(0);
+  const [valorPote2, setValorPote2] = useState(0);
+  const [valorPote3, setValorPote3] = useState(0);
+  const [valorPote4, setValorPote4] = useState(0);
+  const [valorPote5, setValorPote5] = useState(0);
+  const [valorPote6, setValorPote6] = useState(0);
+
+  function handleChange(text) {
+    setValor(text)
+    calcular()
+  }
+
+  function calcular(valorDigitado) {
+    setValorPote1(valor*0.55)
+    setValorPote2(valor*0.05)
+    setValorPote3(valor*0.10)
+    setValorPote4(valor*0.10)
+    setValorPote5(valor*0.15)
+    setValorPote6(valor*0.05)
+  }
+
   return (
     <>
       <StatusBar barStyle="default" />
-      <SafeAreaView style={{backgroundColor: '#ffe6e6'}}>
-        <View style={styles.header}>
-          <Text style={styles.textHeader}>Técnica dos Potes</Text>
-        </View>
-        <View style={{paddingHorizontal: 30, marginBottom: 20 }}>
+      <SafeAreaView style={{ backgroundColor: '#ffe6e6' }}>
+        <View style={{ paddingHorizontal: 30, marginBottom: 20 }}>
           <TextInput
-            placeholder="Digite o valor aqui"
+            placeholder="Digite o Valor"
             placeholderTextColor="#FFF"
-            style={{ 
-              height: 60, 
-              borderColor: '#6155a6', 
-              backgroundColor: '#a685e2', 
-              marginTop: 20, 
-              borderRadius: 10, 
-              paddingHorizontal: 20, 
-              fontSize: 20, color: '#ffe6e6' }}
+            style={styles.inputMain}
             keyboardType="numeric"
+            textContentType="password"
+            value={+valor}
+            onChangeText={text => handleChange(+text)}
           />
         </View>
+
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}>
 
           <View style={styles.mainContent}>
 
-            <Pote name="Pote 1 - Gastos Essenciais" value={23.00} />
-            <Pote name="Pote 2 - Futuro (Aposentadoria)" />
-            <Pote name="Pote 3 - Lazer" value={0.00} />
-            <Pote name="Pote 4 - Desenvolvimento Pessoal" value={0.00} />
-            <Pote name="Pote 5 - Estilo de Vida" value={0.00} />
-            <Pote name="Pote 6 - Doações" value={0.00} />
+            <Pote name="Pote 1 - Gastos Essenciais" value={valorPote1} />
+            <Pote name="Pote 2 - Futuro (Aposentadoria)" value={valorPote2}/>
+            <Pote name="Pote 3 - Lazer" value={valorPote3} />
+            <Pote name="Pote 4 - Desenvolvimento Pessoal" value={valorPote4} />
+            <Pote name="Pote 5 - Estilo de Vida" value={valorPote5} />
+            <Pote name="Pote 6 - Doações" value={valorPote6} />
 
           </View>
         </ScrollView>
@@ -60,16 +75,6 @@ const App: () => React$Node = () => {
     </>
   );
 };
-
-const Pote = (props) => {
-  const valor = !props.value ? 0.00 : props.value;
-  return (
-    <View style={styles.pote}>
-      <Text style={styles.poteName}>{props.name}</Text>
-      <Text style={styles.poteValue}>R$ {valor}</Text>
-    </View>
-  )
-}
 
 const styles = StyleSheet.create({
   header: {
@@ -84,24 +89,19 @@ const styles = StyleSheet.create({
     color: '#FFF'
   },
   mainContent: {
-    padding: 30
+    paddingHorizontal: 30
   },
-  pote: {
-    backgroundColor: '#ffabe1',
-    justifyContent: 'space-around',
-    height: 100,
-    width: '100%',
+  scrollView: {
+    marginBottom: 120
+  },
+  inputMain: {
+    height: 60,
+    borderColor: '#6155a6',
+    backgroundColor: '#a685e2',
+    marginTop: 20,
     borderRadius: 10,
     paddingHorizontal: 20,
-    marginTop: 20,
-  },
-  poteName: {
-    fontSize: 22,
-    color: '#6155a6'
-  },
-  poteValue: {
-    fontSize: 18,
-    color: '#FFF'
+    fontSize: 20, color: '#ffe6e6'
   }
 });
 
